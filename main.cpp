@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "mbed.h"
 #include <stdio.h>
 
 #include "lorawan/LoRaWANInterface.h"
@@ -21,8 +22,6 @@
 #include "events/EventQueue.h"
 
 // Application helpers
-#include "DummySensor.h"
-#include "trace_helper.h"
 #include "lora_radio_helper.h"
 
 using namespace events;
@@ -49,16 +48,6 @@ uint8_t rx_buffer[30];
  * Maximum number of retries for CONFIRMED messages before giving up
  */
 #define CONFIRMED_MSG_RETRY_COUNTER     3
-
-/**
- * Dummy pin for dummy sensor
- */
-#define PC_9                            0
-
-/**
- * Dummy sensor class object
- */
-DS1820  ds1820(PC_9);
 
 /**
 * This event queue is the global event queue for both the
@@ -92,8 +81,7 @@ static lorawan_app_callbacks_t callbacks;
  */
 int main (void)
 {
-    // setup tracing
-    setup_trace();
+    printf("Heoi\n");
 
     // stores the status of a call to LoRaWAN protocol
     lorawan_status_t retcode;
@@ -153,17 +141,7 @@ static void send_message()
 {
     uint16_t packet_len;
     int16_t retcode;
-    float sensor_value;
-
-    if (ds1820.begin()) {
-        ds1820.startConversion();
-        sensor_value = ds1820.read();
-        printf("\r\n Dummy Sensor Value = %3.1f \r\n", sensor_value);
-        ds1820.startConversion();
-    } else {
-        printf("\r\n No sensor found \r\n");
-        return;
-    }
+    float sensor_value = 32.0f;
 
     packet_len = sprintf((char*) tx_buffer, "Dummy Sensor Value is %3.1f",
                     sensor_value);

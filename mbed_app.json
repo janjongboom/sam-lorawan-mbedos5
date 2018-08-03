@@ -33,9 +33,10 @@
             "lora.over-the-air-activation": true,
             "lora.duty-cycle-on": true,
             "lora.phy": 0,
-            "lora.device-eui": "{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }",
-            "lora.application-eui": "{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }",
-            "lora.application-key": "{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }"
+            "lora.device-eui": "{ 0x00, 0xA7, 0x88, 0xD9, 0x46, 0x84, 0x82, 0x64 }",
+            "lora.application-eui": "{ 0x70, 0xB3, 0xD5, 0x7E, 0xD0, 0x00, 0xA1, 0x03 }",
+            "lora.application-key": "{ 0x43, 0xF9, 0x16, 0xF3, 0x22, 0x66, 0x20, 0x0B, 0x55, 0xD7, 0xF6, 0xD9, 0xD1, 0xA9, 0x27, 0x4B }",
+            "mbed-trace.enabled": 1
         },
 
         "K64F": {
@@ -235,6 +236,28 @@
             "lora-ant-switch":     "NC",
             "lora-pwr-amp-ctl":    "NC",
             "lora-tcxo":           "RF_TCXO_EN"
+        },
+
+        "SAML21J18A": {
+            "lora-radio":          "SX1276",
+            "lora-spi-mosi":       "PA06",
+            "lora-spi-miso":       "PA04",
+            "lora-spi-sclk":       "PA07",
+            "lora-cs":             "PA05",
+            "lora-reset":          "PB05",
+            "lora-dio0":           "PB06",
+            "lora-dio1":           "PB07",
+            "lora-dio2":           "PA12",
+            "lora-dio3":           "PA13",
+            "lora-dio4":           "PB04",
+            "lora-dio5":           "PA02",
+            "lora-rf-switch-ctl1": "(PinName)0xFFFFFFFF",
+            "lora-rf-switch-ctl2": "(PinName)0xFFFFFFFF",
+            "lora-txctl":          "(PinName)0xFFFFFFFF",
+            "lora-rxctl":          "(PinName)0xFFFFFFFF",
+            "lora-ant-switch":     "(PinName)0xFFFFFFFF",
+            "lora-pwr-amp-ctl":    "(PinName)0xFFFFFFFF",
+            "lora-tcxo":           "PA03"
         }
     },
     "macros": ["MBEDTLS_USER_CONFIG_FILE=\"mbedtls_lora_config.h\""]

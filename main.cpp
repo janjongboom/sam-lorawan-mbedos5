@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "mbed.h"
 #include <stdio.h>
 
 #include "lorawan/LoRaWANInterface.h"
@@ -22,6 +21,8 @@
 #include "events/EventQueue.h"
 
 // Application helpers
+#include "DummySensor.h"
+#include "trace_helper.h"
 #include "lora_radio_helper.h"
 
 using namespace events;
@@ -48,6 +49,16 @@ uint8_t rx_buffer[30];
  * Maximum number of retries for CONFIRMED messages before giving up
  */
 #define CONFIRMED_MSG_RETRY_COUNTER     3
+
+/**
+ * Dummy pin for dummy sensor
+ */
+#define PC_9                            0
+
+/**
+ * Dummy sensor class object
+ */
+DS1820  ds1820(PC_9);
 
 /**
 * This event queue is the global event queue for both the
@@ -81,7 +92,8 @@ static lorawan_app_callbacks_t callbacks;
  */
 int main (void)
 {
-    printf("Heoi\n");
+    // setup tracing
+    setup_trace();
 
     // stores the status of a call to LoRaWAN protocol
     lorawan_status_t retcode;
@@ -133,7 +145,6 @@ int main (void)
     return 0;
 }
 
-
 /**
  * Sends a message to the Network Server
  */
@@ -141,7 +152,17 @@ static void send_message()
 {
     uint16_t packet_len;
     int16_t retcode;
-    float sensor_value = 32.0f;
+    float sensor_value;
+
+    if (ds1820.begin()) {
+        ds1820.startConversion();
+        sensor_value = ds1820.read();
+        printf("\r\n Dummy Sensor Value = %3.1f \r\n", sensor_value);
+        ds1820.startConversion();
+    } else {
+        printf("\r\n No sensor found \r\n");
+        return;
+    }
 
     packet_len = sprintf((char*) tx_buffer, "Dummy Sensor Value is %3.1f",
                     sensor_value);
@@ -152,6 +173,13 @@ static void send_message()
     if (retcode < 0) {
         retcode == LORAWAN_STATUS_WOULD_BLOCK ? printf("send - WOULD BLOCK\r\n")
                 : printf("\r\n send() - Error code %d \r\n", retcode);
+
+        if (retcode == LORAWAN_STATUS_WOULD_BLOCK) {
+            //retry in 3 seconds
+            if (MBED_CONF_LORA_DUTY_CYCLE_ON) {
+                ev_queue.call_in(3000, send_message);
+            }
+        }
         return;
     }
 
@@ -230,6 +258,12 @@ static void lora_event_handler(lorawan_event_t event)
             break;
         case JOIN_FAILURE:
             printf("\r\n OTAA Failed - Check Keys \r\n");
+            break;
+        case UPLINK_REQUIRED:
+            printf("\r\n Uplink required by NS \r\n");
+            if (MBED_CONF_LORA_DUTY_CYCLE_ON) {
+                send_message();
+            }
             break;
         default:
             MBED_ASSERT("Unknown Event");

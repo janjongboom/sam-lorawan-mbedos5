@@ -32,11 +32,11 @@
             "platform.default-serial-baud-rate": 115200,
             "lora.over-the-air-activation": true,
             "lora.duty-cycle-on": true,
-            "lora.phy": 0,
+            "lora.phy": "EU868",
             "lora.device-eui": "{ 0x00, 0xA7, 0x88, 0xD9, 0x46, 0x84, 0x82, 0x64 }",
             "lora.application-eui": "{ 0x70, 0xB3, 0xD5, 0x7E, 0xD0, 0x00, 0xA1, 0x03 }",
             "lora.application-key": "{ 0x43, 0xF9, 0x16, 0xF3, 0x22, 0x66, 0x20, 0x0B, 0x55, 0xD7, 0xF6, 0xD9, 0xD1, 0xA9, 0x27, 0x4B }",
-            "mbed-trace.enabled": 1
+            "mbed-trace.enable": 1
         },
 
         "K64F": {

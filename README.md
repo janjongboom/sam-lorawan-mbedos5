@@ -5,7 +5,8 @@ Based on [this pull request](https://github.com/ARMmbed/mbed-os/pull/8658) to ad
 ## Getting started
 
 1. Make sure you run the latest interface firmware on the SAML21 Xplained Pro board. The board should mount as USB drive (named `XPLAINED`). If this does not happen, start Atmel Studio and it should prompt you to update.
-1. Attach SX1276 click module to SAML21 Xplained Pro board on extension 1.
+1. Attach SX1276 click module to SAML21 Xplained Pro board on extension 3.
+1. (Optional) Attach ATECC608A module to SAML21 Xplained Pro board on extension 1.
 1. Import this project through Mbed CLI:
 
     ```

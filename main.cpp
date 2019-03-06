@@ -1,3 +1,4 @@
+
 /**
  * Copyright (c) 2017, Arm Limited and affiliates.
  * SPDX-License-Identifier: Apache-2.0
@@ -18,8 +19,8 @@
 #include "mbed.h"
 #include "mbed_events.h"
 #include "mbed_trace.h"
-#include "LoRaWANInterface.h"
 #include "lora_radio_helper.h"
+#include "LoRaWANInterface.h"
 #include "CayenneLPP.h"
 
 #define TX_INTERVAL         10000
@@ -30,12 +31,15 @@ static uint8_t LORAWAN_APP_KEY[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0
 
 static EventQueue ev_queue;
 static void lora_event_handler(lorawan_event_t event);
-static LoRaWANInterface lorawan(radio);
 static lorawan_app_callbacks_t callbacks;
+
+static LoRaWANInterface lorawan(radio);
 
 int main (void)
 {
     mbed_trace_init();
+
+    printf("Mbed OS LoRaWAN stack on SAML21 / SAMR34 \r\n");
 
     lorawan_status_t retcode;
 

@@ -1,3 +1,4 @@
+
 /**
  * Copyright (c) 2017, Arm Limited and affiliates.
  * SPDX-License-Identifier: Apache-2.0
@@ -18,24 +19,27 @@
 #include "mbed.h"
 #include "mbed_events.h"
 #include "mbed_trace.h"
-#include "LoRaWANInterface.h"
 #include "lora_radio_helper.h"
+#include "LoRaWANInterface.h"
 #include "CayenneLPP.h"
 
 #define TX_INTERVAL         10000
 
-static uint8_t LORAWAN_DEV_EUI[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-static uint8_t LORAWAN_APP_EUI[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-static uint8_t LORAWAN_APP_KEY[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static uint8_t LORAWAN_DEV_EUI[] = { 0x00, 0xA7, 0x7C, 0x67, 0xD2, 0xB1, 0x7F, 0xB3 };
+static uint8_t LORAWAN_APP_EUI[] = { 0x70, 0xB3, 0xD5, 0x7E, 0xD0, 0x00, 0xAA, 0xDF };
+static uint8_t LORAWAN_APP_KEY[] = { 0x88, 0xFA, 0xC3, 0x1F, 0xB5, 0x3D, 0xCA, 0xE9, 0xFE, 0xBB, 0x42, 0xF5, 0x69, 0xC5, 0x18, 0x94 };
 
 static EventQueue ev_queue;
 static void lora_event_handler(lorawan_event_t event);
-static LoRaWANInterface lorawan(radio);
 static lorawan_app_callbacks_t callbacks;
+
+static LoRaWANInterface lorawan(radio);
 
 int main (void)
 {
     mbed_trace_init();
+
+    printf("Mbed OS LoRaWAN stack on SAML21 / SAMR34 \r\n");
 
     lorawan_status_t retcode;
 
